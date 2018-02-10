@@ -7,7 +7,8 @@ import testhuffman.Huffman;
 public class Main {
     public static void main(String[] args) {
         Huffman huffman = new Huffman();
-        huffman.compress();
+        String huffmanStr = huffman.compress();
+        String str = huffman.expand(huffmanStr);
     }
 
 }
