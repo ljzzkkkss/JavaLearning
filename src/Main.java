@@ -1,14 +1,15 @@
-import testfile.MakeDirectories;
-import testhuffman.Huffman;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.util.function.Function;
 
 /**
  * Created by LiuJun on 2016/8/25.
  */
 public class Main {
-    public static void main(String[] args) {
-        Huffman huffman = new Huffman();
-        String huffmanStr = huffman.compress();
-        String str = huffman.expand(huffmanStr);
+    public static void main(String[] args) throws NoSuchFieldException {
+        Function<String,Long> stringToLong = Long::valueOf;
+
+        System.out.println(stringToLong.apply("1"));
     }
 
 }
