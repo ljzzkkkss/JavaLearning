@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="ognl" type="repository">
+    <properties maven-id="ognl:ognl:3.3.2" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/ognl-3.3.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javassist-3.28.0-GA.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ideaLibSources/ognl-3.3.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

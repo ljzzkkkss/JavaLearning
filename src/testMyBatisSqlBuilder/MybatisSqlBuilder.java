@@ -1,5 +1,8 @@
+package testMyBatisSqlBuilder;
+
 import ognl.Ognl;
 import ognl.OgnlException;
+import org.apache.commons.lang3.text.StrSubstitutor;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -11,7 +14,7 @@ import org.xml.sax.SAXParseException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.*;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -22,7 +25,7 @@ import java.util.Map;
 /**
  * Created by LiuJun on 2016/8/25.
  */
-public class Main {
+public class MybatisSqlBuilder {
     public static void main(String[] args) throws NoSuchFieldException, ParserConfigurationException, IOException, SAXException, XPathExpressionException, OgnlException {
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         builderFactory.setValidating(false);
@@ -50,9 +53,7 @@ public class Main {
                 System.out.println("fatalError:" + exception.getMessage());
             }
         });
-        String prefix = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\"\n" +
-                "        \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">";
+        String prefix = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
         String sql = prefix + "<sql>" + "UPDATE \"icon\" SET\n" +
                 "        <if test=\"name != null\">\"name\" = #{name},</if>\n" +
                 "        <if test=\"url != null\">\"url\" = #{url},</if>\n" +
@@ -65,10 +66,10 @@ public class Main {
         NodeList nodeList = sqlNode.getChildNodes();
         Map<String, String> map = new HashMap<>();
         map.put("name", null);
-        map.put("url", "111");
-        map.put("updatedBy", "a");
-        map.put("updatedTime", "2021-01-09");
-        map.put("code", "m");
+        map.put("url", "'111'");
+        map.put("updatedBy", "'a'");
+        map.put("updatedTime", "'2021-01-09'");
+        map.put("code", "'m'");
         String sqlStr = "";
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
@@ -81,7 +82,8 @@ public class Main {
                 sqlStr += getNodeText(node);
             }
         }
-        System.out.println(sqlStr);
+        StrSubstitutor substitutor = new StrSubstitutor(map,"#{","}",'#');
+        System.out.println(substitutor.replace(sqlStr));
     }
 
     private static boolean evaluateBoolean(String expression,Object param) throws OgnlException {
